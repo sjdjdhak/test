@@ -1,0 +1,76 @@
+{
+  "name": "ai-navigation",
+  "version": "1.0.0",
+  "description": "AI工具导航平台 - 最全面的AI工具导航网站",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/",
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "deploy": "npm run build && node scripts/deploy.js"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
+    "@vueuse/core": "^10.5.0",
+    "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
+    "element-plus": "^2.4.4",
+    "fuse.js": "^7.0.0",
+    "lodash-es": "^4.17.21",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.7",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.9.0",
+    "@types/nprogress": "^0.2.3",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "@vue/test-utils": "^2.4.2",
+    "eslint": "^8.54.0",
+    "eslint-plugin-vue": "^9.18.1",
+    "husky": "^8.0.3",
+    "jsdom": "^23.0.1",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
+    "sass": "^1.69.5",
+    "typescript": "^5.3.2",
+    "unplugin-auto-import": "^0.17.2",
+    "unplugin-vue-components": "^0.25.2",
+    "vite": "^5.0.0",
+    "vitest": "^0.34.6",
+    "vue-tsc": "^1.8.22"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "keywords": [
+    "ai",
+    "navigation",
+    "tools",
+    "vue3",
+    "typescript",
+    "element-plus"
+  ],
+  "author": "AI Navigation Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/your-username/ai-navigation.git"
+  }
+}

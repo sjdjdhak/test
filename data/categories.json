@@ -1,0 +1,115 @@
+{
+  "version": "1.0.0",
+  "lastUpdate": "2024-01-01T00:00:00Z",
+  "categories": [
+    {
+      "id": "cat_001",
+      "name": "AI工具",
+      "description": "人工智能相关工具和平台",
+      "icon": "cpu",
+      "color": "#1890ff",
+      "order": 1,
+      "parentId": null,
+      "level": 0,
+      "isActive": true,
+      "createTime": "2024-01-01T00:00:00Z",
+      "updateTime": "2024-01-01T00:00:00Z",
+      "children": [
+        {
+          "id": "cat_002",
+          "name": "文本生成",
+          "description": "AI文本生成工具",
+          "icon": "edit",
+          "color": "#52c41a",
+          "order": 1,
+          "parentId": "cat_001",
+          "level": 1,
+          "isActive": true,
+          "createTime": "2024-01-01T00:00:00Z",
+          "updateTime": "2024-01-01T00:00:00Z"
+        },
+        {
+          "id": "cat_003",
+          "name": "图像生成",
+          "description": "AI图像生成工具",
+          "icon": "picture",
+          "color": "#722ed1",
+          "order": 2,
+          "parentId": "cat_001",
+          "level": 1,
+          "isActive": true,
+          "createTime": "2024-01-01T00:00:00Z",
+          "updateTime": "2024-01-01T00:00:00Z"
+        },
+        {
+          "id": "cat_004",
+          "name": "代码助手",
+          "description": "AI代码生成和辅助工具",
+          "icon": "code",
+          "color": "#fa8c16",
+          "order": 3,
+          "parentId": "cat_001",
+          "level": 1,
+          "isActive": true,
+          "createTime": "2024-01-01T00:00:00Z",
+          "updateTime": "2024-01-01T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "cat_005",
+      "name": "开发工具",
+      "description": "开发相关工具和平台",
+      "icon": "tool",
+      "color": "#13c2c2",
+      "order": 2,
+      "parentId": null,
+      "level": 0,
+      "isActive": true,
+      "createTime": "2024-01-01T00:00:00Z",
+      "updateTime": "2024-01-01T00:00:00Z",
+      "children": [
+        {
+          "id": "cat_006",
+          "name": "前端工具",
+          "description": "前端开发工具",
+          "icon": "monitor",
+          "color": "#eb2f96",
+          "order": 1,
+          "parentId": "cat_005",
+          "level": 1,
+          "isActive": true,
+          "createTime": "2024-01-01T00:00:00Z",
+          "updateTime": "2024-01-01T00:00:00Z"
+        },
+        {
+          "id": "cat_007",
+          "name": "后端工具",
+          "description": "后端开发工具",
+          "icon": "server",
+          "color": "#f5222d",
+          "order": 2,
+          "parentId": "cat_005",
+          "level": 1,
+          "isActive": true,
+          "createTime": "2024-01-01T00:00:00Z",
+          "updateTime": "2024-01-01T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "cat_008",
+      "name": "设计工具",
+      "description": "设计相关工具和资源",
+      "icon": "bg-colors",
+      "color": "#faad14",
+      "order": 3,
+      "parentId": null,
+      "level": 0,
+      "isActive": true,
+      "createTime": "2024-01-01T00:00:00Z",
+      "updateTime": "2024-01-01T00:00:00Z",
+      "children": []
+    }
+  ]
+} 

@@ -1,0 +1,27 @@
+{
+  "site": {
+    "title": "AI导航",
+    "description": "最全面的AI工具导航平台",
+    "keywords": ["AI", "人工智能", "工具", "导航"],
+    "logo": "/logo.svg",
+    "favicon": "/favicon.ico"
+  },
+  "gitee": {
+    "owner": "your-username",
+    "repo": "ai-navigation",
+    "branch": "main",
+    "dataPath": "data/"
+  },
+  "ui": {
+    "theme": "light",
+    "primaryColor": "#1890ff",
+    "itemsPerPage": 20,
+    "enableAnimation": true
+  },
+  "features": {
+    "search": true,
+    "favorites": true,
+    "sharing": true,
+    "statistics": true
+  }
+} 
