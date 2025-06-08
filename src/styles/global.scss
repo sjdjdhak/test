@@ -1,25 +1,29 @@
-// 重置样式
+// 导入变量和mixins
+@import './variables.scss';
+@import './mixins.scss';
+
+// 全局重置
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
   font-size: 16px;
-  line-height: var(--line-height-normal);
+  line-height: 1.6;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
-  background-color: var(--bg-secondary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 // 链接样式
@@ -29,19 +33,40 @@ a {
   transition: color var(--transition-fast);
   
   &:hover {
-    color: var(--primary-light);
+    color: var(--primary-color-dark);
   }
-  
-  &:active {
-    color: var(--primary-dark);
-  }
+}
+
+// 按钮重置
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+// 输入框重置
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+// 图片响应式
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// 列表重置
+ul, ol {
+  list-style: none;
 }
 
 // 标题样式
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: var(--line-height-tight);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   color: var(--text-primary);
 }
 
@@ -58,110 +83,70 @@ p {
   color: var(--text-secondary);
 }
 
-// 列表样式
-ul, ol {
-  margin-bottom: var(--spacing-md);
-  padding-left: var(--spacing-lg);
-}
-
-li {
-  margin-bottom: var(--spacing-xs);
-}
-
-// 图片样式
-img {
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-}
-
-// 表格样式
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: var(--spacing-md);
-}
-
-th, td {
-  padding: var(--spacing-sm) var(--spacing-md);
-  text-align: left;
-  border-bottom: 1px solid var(--border-secondary);
-}
-
-th {
-  font-weight: 600;
-  color: var(--text-primary);
-  background-color: var(--bg-tertiary);
-}
-
 // 代码样式
 code {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-family: var(--font-family-mono);
   font-size: 0.875em;
-  color: var(--error-color);
-  background-color: var(--bg-tertiary);
-  padding: 2px 4px;
+  background: var(--bg-tertiary);
+  padding: 0.125em 0.25em;
   border-radius: var(--border-radius-small);
+  color: var(--text-primary);
 }
 
 pre {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  background-color: var(--bg-tertiary);
+  font-family: var(--font-family-mono);
+  background: var(--bg-tertiary);
   padding: var(--spacing-md);
   border-radius: var(--border-radius-medium);
   overflow-x: auto;
-  margin-bottom: var(--spacing-md);
   
   code {
     background: none;
     padding: 0;
-    color: var(--text-primary);
   }
-}
-
-// 引用样式
-blockquote {
-  border-left: 4px solid var(--primary-color);
-  padding-left: var(--spacing-md);
-  margin: var(--spacing-md) 0;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-// 分割线样式
-hr {
-  border: none;
-  height: 1px;
-  background-color: var(--border-secondary);
-  margin: var(--spacing-xl) 0;
-}
-
-// 选择文本样式
-::selection {
-  background-color: rgba(24, 144, 255, 0.2);
-  color: var(--text-primary);
 }
 
 // 滚动条样式
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--border-primary);
-  border-radius: 4px;
+  border-radius: 3px;
   
   &:hover {
     background: var(--text-tertiary);
   }
 }
 
+// 选择文本样式
+::selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--primary-color);
+  color: white;
+}
+
 // 工具类
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  
+  @include mobile {
+    padding: 0 var(--spacing-md);
+  }
+}
+
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
@@ -183,11 +168,88 @@ hr {
 .rounded-sm { border-radius: var(--border-radius-small); }
 .rounded { border-radius: var(--border-radius-medium); }
 .rounded-lg { border-radius: var(--border-radius-large); }
-.rounded-xl { border-radius: var(--border-radius-xl); }
 
 .shadow-light { box-shadow: var(--shadow-light); }
 .shadow-medium { box-shadow: var(--shadow-medium); }
 .shadow-heavy { box-shadow: var(--shadow-heavy); }
+
+// Flex工具类
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.flex-1 { flex: 1; }
+
+// 显示/隐藏
+.d-none { display: none; }
+.d-block { display: block; }
+
+// 文本省略
+.text-ellipsis {
+  @include text-ellipsis(1);
+}
+
+.text-ellipsis-2 {
+  @include text-ellipsis(2);
+}
+
+.text-ellipsis-3 {
+  @include text-ellipsis(3);
+}
+
+// 响应式显示/隐藏
+@include mobile {
+  .d-mobile-none { display: none; }
+  .d-mobile-block { display: block; }
+}
+
+// 动画类
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-normal);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// 表格样式
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing-md);
+}
+
+th, td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+th {
+  font-weight: 600;
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+// 引用样式
+blockquote {
+  border-left: 4px solid var(--primary-color);
+  padding-left: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+// 分割线样式
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--border-secondary);
+  margin: var(--spacing-xl) 0;
+}
 
 // 间距工具类
 .m-0 { margin: 0; }
@@ -260,35 +322,6 @@ hr {
 .pr-lg { padding-right: var(--spacing-lg); }
 .pr-xl { padding-right: var(--spacing-xl); }
 
-// Flex工具类
-.d-flex { display: flex; }
-.d-inline-flex { display: inline-flex; }
-.flex-column { flex-direction: column; }
-.flex-row { flex-direction: row; }
-.flex-wrap { flex-wrap: wrap; }
-.flex-nowrap { flex-wrap: nowrap; }
-
-.justify-start { justify-content: flex-start; }
-.justify-center { justify-content: center; }
-.justify-end { justify-content: flex-end; }
-.justify-between { justify-content: space-between; }
-.justify-around { justify-content: space-around; }
-
-.align-start { align-items: flex-start; }
-.align-center { align-items: center; }
-.align-end { align-items: flex-end; }
-.align-stretch { align-items: stretch; }
-
-.flex-1 { flex: 1; }
-.flex-auto { flex: auto; }
-.flex-none { flex: none; }
-
-// 显示/隐藏
-.d-none { display: none; }
-.d-block { display: block; }
-.d-inline { display: inline; }
-.d-inline-block { display: inline-block; }
-
 // 位置
 .position-relative { position: relative; }
 .position-absolute { position: absolute; }
@@ -300,26 +333,7 @@ hr {
 .overflow-auto { overflow: auto; }
 .overflow-scroll { overflow: scroll; }
 
-// 文本省略
-.text-ellipsis {
-  @include text-ellipsis(1);
-}
-
-.text-ellipsis-2 {
-  @include text-ellipsis(2);
-}
-
-.text-ellipsis-3 {
-  @include text-ellipsis(3);
-}
-
 // 响应式显示/隐藏
-@include mobile {
-  .d-mobile-none { display: none; }
-  .d-mobile-block { display: block; }
-  .d-mobile-flex { display: flex; }
-}
-
 @include tablet {
   .d-tablet-none { display: none; }
   .d-tablet-block { display: block; }
@@ -333,16 +347,6 @@ hr {
 }
 
 // 动画类
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity var(--transition-normal);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .slide-up-enter-active,
 .slide-up-leave-active {
   transition: all var(--transition-normal);

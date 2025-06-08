@@ -1,85 +1,31 @@
 <template>
   <div class="home-page">
-    <!-- 搜索区域 -->
     <div class="search-section">
       <div class="search-container">
         <h1 class="page-title">AI导航</h1>
         <p class="page-subtitle">发现最优质的AI工具和资源</p>
-        <SearchBox 
-          v-model="searchQuery"
-          @search="handleSearch"
-          placeholder="搜索AI工具、分类或标签..."
-          class="main-search"
-        />
-      </div>
-    </div>
-
-    <!-- 推荐导航 -->
-    <div class="featured-section" v-if="featuredNavigations.length > 0">
-      <div class="section-header">
-        <h2 class="section-title">
-          <el-icon><Star /></el-icon>
-          推荐导航
-        </h2>
-        <el-button type="text" @click="viewAllFeatured">查看全部</el-button>
-      </div>
-      <NavigationGrid 
-        :navigations="featuredNavigations"
-        :loading="loading"
-        @click="handleNavigationClick"
-      />
-    </div>
-
-    <!-- 热门导航 -->
-    <div class="popular-section" v-if="popularNavigations.length > 0">
-      <div class="section-header">
-        <h2 class="section-title">
-          <el-icon><TrendCharts /></el-icon>
-          热门导航
-        </h2>
-        <el-button type="text" @click="viewAllPopular">查看全部</el-button>
-      </div>
-      <NavigationGrid 
-        :navigations="popularNavigations"
-        :loading="loading"
-        @click="handleNavigationClick"
-      />
-    </div>
-
-    <!-- 最新导航 -->
-    <div class="recent-section">
-      <div class="section-header">
-        <h2 class="section-title">
-          <el-icon><Clock /></el-icon>
-          最新导航
-        </h2>
-        <el-button type="text" @click="viewAllRecent">查看全部</el-button>
-      </div>
-      <NavigationGrid 
-        :navigations="recentNavigations"
-        :loading="loading"
-        @click="handleNavigationClick"
-      />
-    </div>
-
-    <!-- 统计信息 -->
-    <div class="stats-section">
-      <div class="stats-container">
-        <div class="stat-card">
-          <div class="stat-number">{{ totalNavigations }}</div>
-          <div class="stat-label">导航总数</div>
+        <div class="search-box">
+          <input 
+            v-model="searchQuery"
+            @keyup.enter="handleSearch"
+            placeholder="搜索AI工具、分类或标签..."
+            class="search-input"
+          />
+          <button @click="handleSearch" class="search-btn">搜索</button>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">{{ totalCategories }}</div>
-          <div class="stat-label">分类总数</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">{{ totalVisits }}</div>
-          <div class="stat-label">总访问量</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">{{ todayVisits }}</div>
-          <div class="stat-label">今日访问</div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-header">
+        <h2>推荐导航</h2>
+      </div>
+      
+      <div class="navigation-grid">
+        <div v-for="nav in sampleNavigations" :key="nav.id" class="nav-card">
+          <h3>{{ nav.title }}</h3>
+          <p>{{ nav.description }}</p>
+          <a :href="nav.url" target="_blank" class="nav-link">访问</a>
         </div>
       </div>
     </div>
@@ -87,214 +33,189 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Star, TrendCharts, Clock } from '@element-plus/icons-vue'
-import SearchBox from '@/components/Search/SearchBox.vue'
-import NavigationGrid from '@/components/Navigation/NavigationGrid.vue'
-import { useNavigationStore } from '@/stores/navigation'
-import { useCategoryStore } from '@/stores/category'
-import type { Navigation } from '@/types/navigation'
 
 const router = useRouter()
-const navigationStore = useNavigationStore()
-const categoryStore = useCategoryStore()
-
 const searchQuery = ref('')
-const loading = ref(false)
 
-// 计算属性
-const featuredNavigations = computed(() => navigationStore.featuredNavigations)
-const popularNavigations = computed(() => navigationStore.popularNavigations)
-const recentNavigations = computed(() => {
-  return [...navigationStore.navigations]
-    .sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime())
-    .slice(0, 8)
-})
+// 示例数据
+const sampleNavigations = ref([
+  {
+    id: 1,
+    title: 'ChatGPT',
+    description: '强大的AI对话助手',
+    url: 'https://chat.openai.com'
+  },
+  {
+    id: 2,
+    title: 'Midjourney',
+    description: 'AI图像生成工具',
+    url: 'https://midjourney.com'
+  },
+  {
+    id: 3,
+    title: 'Claude',
+    description: 'Anthropic的AI助手',
+    url: 'https://claude.ai'
+  },
+  {
+    id: 4,
+    title: 'Stable Diffusion',
+    description: '开源AI图像生成',
+    url: 'https://stability.ai'
+  }
+])
 
-const totalNavigations = computed(() => navigationStore.totalCount)
-const totalCategories = computed(() => categoryStore.totalCount)
-const totalVisits = computed(() => {
-  return navigationStore.navigations.reduce((sum, nav) => sum + nav.visitCount, 0)
-})
-const todayVisits = ref(0) // TODO: 实现今日访问统计
-
-// 方法
-const handleSearch = (query: string) => {
-  if (query.trim()) {
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
     router.push({
       name: 'Search',
-      query: { q: query }
+      query: { q: searchQuery.value }
     })
   }
 }
-
-const handleNavigationClick = (navigation: Navigation) => {
-  // 增加访问次数
-  navigationStore.incrementVisitCount(navigation.id)
-  
-  // 打开链接
-  window.open(navigation.url, '_blank')
-}
-
-const viewAllFeatured = () => {
-  router.push({ name: 'Category', query: { featured: 'true' } })
-}
-
-const viewAllPopular = () => {
-  router.push({ name: 'Category', query: { sort: 'popular' } })
-}
-
-const viewAllRecent = () => {
-  router.push({ name: 'Category', query: { sort: 'recent' } })
-}
-
-// 初始化数据
-onMounted(async () => {
-  loading.value = true
-  try {
-    await Promise.all([
-      navigationStore.fetchNavigations(),
-      categoryStore.fetchCategories()
-    ])
-  } catch (error) {
-    console.error('Failed to load data:', error)
-  } finally {
-    loading.value = false
-  }
-})
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .home-page {
   min-height: 100vh;
+  background: #f5f5f5;
 }
 
 .search-section {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-light) 100%);
-  padding: var(--spacing-xxl) 0;
+  background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+  padding: 80px 20px;
   text-align: center;
   color: white;
-  
-  .search-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-lg);
-  }
-  
-  .page-title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: var(--spacing-md);
-    
-    @include mobile {
-      font-size: 2rem;
-    }
-  }
-  
-  .page-subtitle {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-xl);
-    opacity: 0.9;
-  }
-  
-  .main-search {
-    max-width: 600px;
-    margin: 0 auto;
-  }
 }
 
-.featured-section,
-.popular-section,
-.recent-section {
-  padding: var(--spacing-xxl) var(--spacing-lg);
-  max-width: 1200px;
+.search-container {
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.section-header {
+.page-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.search-box {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-xl);
-  
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    font-size: var(--font-size-xl);
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-  }
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 12px;
 }
 
-.stats-section {
-  background: var(--bg-secondary);
-  padding: var(--spacing-xxl) var(--spacing-lg);
-  margin-top: var(--spacing-xxl);
-  
-  .stats-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-lg);
-  }
-  
-  .stat-card {
-    background: var(--bg-primary);
-    padding: var(--spacing-xl);
-    border-radius: var(--border-radius-lg);
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    .stat-label {
-      font-size: var(--font-size-md);
-      color: var(--text-secondary);
-    }
-  }
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
 }
 
-@include mobile {
-  .search-section {
-    padding: var(--spacing-xl) 0;
+.search-btn {
+  padding: 12px 24px;
+  background: #fff;
+  color: #1890ff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.search-btn:hover {
+  background: #f0f0f0;
+}
+
+.content-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+}
+
+.navigation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.nav-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.nav-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.nav-card h3 {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.nav-card p {
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #1890ff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.nav-link:hover {
+  background: #40a9ff;
+}
+
+@media (max-width: 767px) {
+  .page-title {
+    font-size: 2rem;
   }
   
-  .featured-section,
-  .popular-section,
-  .recent-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-  }
-  
-  .section-header {
+  .search-box {
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-md);
   }
   
-  .stats-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    
-    .stats-container {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-md);
-    }
-    
-    .stat-card {
-      padding: var(--spacing-lg);
-      
-      .stat-number {
-        font-size: 2rem;
-      }
-    }
+  .navigation-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .content-section {
+    padding: 40px 16px;
   }
 }
 </style> 
